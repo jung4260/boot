@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3>validation 작업</h3>
+	
+	<form action="validForm" method="post">
+		이름:<input type="text" name="name">
+		급여:<input type="text" name="salary">
+		전화번호:<input type="text" name="phone">
+		이메일:<input type="text" name="email">
+		
+		<input type="submit" value="결과">
+	</form>
+	
+	<script>
+		//ui상에어 유효성 검사
+	
+	</script>
+	
+	
+</body>
+</html>

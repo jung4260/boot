@@ -1,0 +1,15 @@
+package com.simple.basic.test01;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest //스프링부트 기반에 테스트
+public class TestCode01 {
+
+	@Test //이 메서드를 실행함
+	public void test01() {
+		System.out.println("hello world");
+	}
+	
+	
+}

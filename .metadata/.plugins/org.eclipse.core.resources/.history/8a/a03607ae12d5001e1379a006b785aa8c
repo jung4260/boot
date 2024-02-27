@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+	<h3>반복문</h3>
+	<!--  [[${list}]] -->
+	<ul>
+		<li th:each="vo : ${list}"> 
+			[[${vo.id}]] 
+			[[${vo.age}]] 
+			[[${vo.email}]] 
+			[[${vo.address}]] 
+		</li>
+	</ul>
+
+	<hr>
+	
+	<ul>
+		<li th:each="vo:${list}" th:if="${vo.age % 2 == 0}">
+			[[${vo.age} + '입니다']]
+		</li>
+	</ul>
+
+	<!-- 
+	<c:foreach>
+		<li></li>
+	</c:foreach>
+	 -->
+
+
+ 	<hr>
+ 	<h3>block문 - 별도의 태그를 사용하지 않고, 마치 중괄호처럼 사용하는 방법</h3>
+ 	<ul>
+ 		<th:block th:each="vo : ${list}" >
+ 			<li >[[${vo.id}]]</li>
+ 		</th:block>
+ 	</ul>
+ 	
+ 	
+
+</body>
+</html>

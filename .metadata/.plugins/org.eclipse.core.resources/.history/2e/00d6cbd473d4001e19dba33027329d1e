@@ -1,0 +1,18 @@
+package com.simple.basic.command;
+
+public class BuilderVO {
+	
+	//클래스 패턴 - 빌더 패턴 (객체의 불변성을 유지하는, 스트링부트에서 자주 사용되는 디자인 패턴)
+	//*1st* 맴버 변수 생성
+	private String name;
+	private int age;
+	
+	//*2nd* 내부클래스
+	public static class Builder {
+		
+		private String name;
+		private int age;
+		
+	}
+
+}

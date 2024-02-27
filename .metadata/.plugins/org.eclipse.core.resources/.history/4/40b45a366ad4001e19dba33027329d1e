@@ -1,0 +1,26 @@
+package com.simple.basic.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+//부가적인 bean설정은 이렇게 하면 됩니다.
+@Configuration //스프링 설정파일을 의미함
+public class WebConfig implements WebMvcConfigurer {
+	
+	@Value("${server.port}") //properties에 있는 값을 참조
+	String port;
+	@Value("hello")
+	String hello;
+	
+	
+	@Bean //스프링이 실행할 때 이 메서드를 실행시켜서 반환되는 값을 bean으로 등록
+	void hello() {
+		//System.out.println("스프링 bean설정 hello world");
+		System.out.println("설정값:" + port);
+		System.out.println("설정값:" + hello);
+	}
+	
+	
+}

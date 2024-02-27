@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3>ex05 - 인클루드 확인</h3>
+
+	<th:block th:replace="~{./include/layout01 :: part1}" >
+	</th:block>
+	
+	<th:block th:replace="~{./include/layout01 :: part3}">
+	</th:block>
+
+	<h3>파일자체를 통째로 가져오기</h3>
+	<th:block th:replace="~{./include/layout02}">
+	</th:block>
+
+</body>
+</html>

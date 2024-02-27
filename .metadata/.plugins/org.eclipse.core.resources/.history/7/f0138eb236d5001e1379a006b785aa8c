@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<th:block th:replace="~{./include/layout03 :: 함수( ~{ ::#first } ) }" > <!-- .wrap으로 표기 가능 -->
+		
+		<div id="first" class="wrap" th:each="vo : ${list}" th:if="${vo.age == 1}"> 
+			<h3>ex06 - 템플릿 모형의 인클루드 </h3>
+			여기는 ex06.html
+			[[${list}]]
+		</div>
+		
+		
+		
+	</th:block>
+	
+	<script>
+		//이 화면에서만 사용할 프로그램 코드는 th:block 밖에다가 선언하면 됩니다.
+		var a=1;
+		console.log(a);
+	</script>
+
+</html>

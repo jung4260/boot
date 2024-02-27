@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3>validation 작업</h3>
+	
+	<form action="validForm" method="post">
+		이름:<input type="text" name="name" 		th:value="${vo.name == null ? ''}">
+		급여:<input type="text" name="salary" 	th:value="${vo.salary == null ? ''}">
+		전화번호:<input type="text" name="phone" 	th:value="${vo.phone == null ? ''}">
+		이메일:<input type="text" name="email" 	th:value="${vo.email == null ? ''}">
+		
+		<input type="submit" value="결과">
+	</form>
+	
+	<script>
+		//ui상에어 유효성 검사
+	
+	</script>
+	
+	
+</body>
+</html>

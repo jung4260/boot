@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<th:block th:replace="~{./include/layout03 :: 함수( ~{ ::#first } ) }">
+		
+		<div id="first">
+			<h3>ex06 - 템플릿 모형의 인클루드 </h3>
+			여기는 ex06.html
+		</div>
+		
+	</th:block>
+
+</html>

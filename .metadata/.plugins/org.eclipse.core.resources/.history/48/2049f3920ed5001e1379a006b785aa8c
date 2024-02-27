@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!-- 타임리프 네임스페이스 선언문 -->
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3>타임리프 선언문 기본문법</h3>
+	
+	<b th:text="홍길동"></b> <br>
+	<b th:text="${'홍길동'}"></b> <br>
+	<b>[[${'홍길동'}]]</b> <br>
+
+	<hr>
+	
+	<h3 th:text="${1 == 1}"></h3>
+	<h3>[[${1==2}]]</h3>
+	
+	<hr>
+	
+	<h3 th:text="${true} and ${false}"></h3>
+	<h3 th:text="${true && false}"></h3>
+	<h3>[[${true || false}]]</h3>
+	
+	<hr>
+	
+	<h3>변수</h3>
+	
+	<div th:with="a = 1 , b = 2">
+		[[${a}]] <br>
+		[[${b}]] <br>
+	</div>
+
+</body>
+</html>

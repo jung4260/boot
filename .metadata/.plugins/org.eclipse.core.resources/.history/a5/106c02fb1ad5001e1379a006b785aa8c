@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3>JS에서 타임리프값 참조하기 th:inline</h3>
+	
+	[[${name}]]
+	[[${vo}]]
+
+	<script>
+		let a = [[${name}]];
+		let b = [[${vo}]];
+		
+		console.log(a)
+		console.log(b)
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3>타임리프 a링크</h3>
+	
+	<a href="/view/ex01/${df}">그냥(이렇게 쓰면 라임리프 문법을 사용하지 X)</a>
+	
+	<a th:href="@{/view/ex01}">타임리프 a링크</a>
+	
+
+</body>
+</html>
