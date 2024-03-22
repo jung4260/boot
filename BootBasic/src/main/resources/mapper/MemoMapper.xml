@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.simple.basic.mapper.MemoMapper">
+
+	<insert id="insertMemo" parameterType="com.simple.basic.command.MemoVO">
+		insert into memo (memo, phone, pw, secret) values (#{memo},#{phone},#{pw},#{secret})
+	</insert>
+	
+	<select id="getList" resultType="com.simple.basic.command.MemoVO">
+		select * from memo
+	</select>
+	
+
+</mapper>
+
+
+  

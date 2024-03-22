@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.coding404.myweb.product.service.ProductMapper">
+
+	<insert id="regist">
+		insert into PRODUCT (PROD_ENDDATE
+							 ,prod_category
+							 ,PROD_WRITER
+							 ,PROD_NAME
+							 ,PROD_PRICE
+							 ,PROD_COUNT
+							 ,PROD_DISCOUNT
+							 ,PROD_PURCHASE_YN
+							 ,PROD_CONTENT
+							 ,PROD_COMMENT	)
+		values (#{prod_enddate}
+				,#{prod_category}
+				,#{prod_writer}
+				,#{prod_name}
+				,#{prod_price}
+				,#{prod_count}
+				,#{prod_discount}
+				,#{prod_purchase_yn}
+				,#{prod_content}
+				,#{prod_comment}	)
+	</insert>
+
+	<!-- 
+		동적쿼리 test조건은 VO안에 선언된 geter명을 변수로 사용가능
+		CDATA안에 들어간 값은 순수한 문자열로 인식을 시킴(부등호 사용할 때 적용)
+	 -->
+
+	<select id="getList" resultType="ProductVO">
+		<!--
+		select * from PRODUCT
+		where prod_writer = 'admin'
+		
+		<if test="searchName != '' and searchName != null">
+			and prod_name like concat('%', #{searchName}, '%')
+		</if>
+		<if test="searchContent != '' and searchContent != null">
+			and prod_content like concat('%', #{searchContent}, '%')
+		</if>
+		<if test="startDate != '' and startDate != null">
+			<![CDATA[
+				and str_to_date( prod_enddate, '%Y-%m-%d' ) >= str_to_date(#{startDate}, '%Y-%m-%d')
+			]]>
+		</if>
+		<if test="endDate != '' and endDate != null">
+			<![CDATA[
+				and str_to_date( prod_enddate, '%Y-%m-%d' ) <= str_to_date(#{endDate}, '%Y-%m-%d')
+			]]>
+		</if>
+		
+		order by 
+		<if test="searchPrice == 'asc' ">
+			prod_price asc, 
+		</if>
+		<if test="searchPrice == 'desc'">
+			prod_price desc,
+		</if>
+		prod_id desc
+		limit #{pageStart}, #{amount}
+		-->
+		
+		SELECT P1.*, P2.CATEGORY_NAV
+			FROM PRODUCT P1
+			LEFT JOIN (SELECT CONCAT(A1.GROUP_ID, A1.CATEGORY_ID) AS CATEGORY_KEY,
+			       CASE A1.CATEGORY_LV
+				        WHEN 1 THEN A1.CATEGORY_DETAIL_NM
+			            WHEN 2 THEN CONCAT(A1.CATEGORY_DETAIL_NM, ' > ', A2.CATEGORY_DETAIL_NM )
+			            WHEN 3 THEN CONCAT(A1.CATEGORY_DETAIL_NM, ' > ', A2.CATEGORY_DETAIL_NM, ' > ', A3.CATEGORY_DETAIL_NM)
+				   END AS CATEGORY_NAV
+			FROM PRODUCT_CATEGORY A1
+			LEFT JOIN PRODUCT_CATEGORY A2
+			ON A1.CATEGORY_PARENT_LV = A2.CATEGORY_LV AND A1.CATEGORY_DETAIL_PARENT_LV = A2.CATEGORY_DETAIL_LV AND A1.GROUP_ID = A2.GROUP_ID
+			LEFT JOIN PRODUCT_CATEGORY A3
+			ON A2.CATEGORY_PARENT_LV = A3.CATEGORY_LV AND A2.CATEGORY_DETAIL_PARENT_LV = A3.CATEGORY_DETAIL_LV
+			ORDER BY CATEGORY_KEY) P2
+			ON P1.PROD_CATEGORY = P2.CATEGORY_KEY
+		where prod_writer = #{user_id}
+		
+		<if test="criteria.searchName != '' and criteria.searchName != null">
+			and prod_name like concat('%', #{criteria.searchName}, '%')
+		</if>
+		<if test="criteria.searchContent != '' and criteria.searchContent != null">
+			and prod_content like concat('%', #{criteria.searchContent}, '%')
+		</if>
+		<if test="criteria.startDate != '' and criteria.startDate != null">
+			<![CDATA[
+				and str_to_date( prod_enddate, '%Y-%m-%d' ) >= str_to_date(#{criteria.startDate}, '%Y-%m-%d')
+			]]>
+		</if>
+		<if test="criteria.endDate != '' and criteria.endDate != null">
+			<![CDATA[
+				and str_to_date( prod_enddate, '%Y-%m-%d' ) <= str_to_date(#{criteria.endDate}, '%Y-%m-%d')
+			]]>
+		</if>
+		
+		order by 
+		<if test="criteria.searchPrice == 'asc' ">
+			prod_price asc, 
+		</if>
+		<if test="criteria.searchPrice == 'desc'">
+			prod_price desc,
+		</if>
+		prod_id desc
+		limit #{criteria.pageStart}, #{criteria.amount}
+		
+		
+		
+		
+	</select>
+
+	
+	<select id="getDetail" resultType="ProductVO">
+		select *
+  		from PRODUCT P
+  				left join(SELECT
+		       CONCAT(A1.group_ID, A1.CATEGORY_ID) AS CATEGORY_KEY, ##카테고리 키 (그룹 + 키 형태로 카테고리분류)
+		 	   CASE A1.category_parent_LV
+		 	        WHEN 0 THEN A1.category_detail_NM
+		 			WHEN 1 THEN CONCAT(A2.category_detail_NM,' > ', A1.category_detail_NM)
+		 			WHEN 2 THEN CONCAT(A3.category_detail_NM, ' > ', A2.category_detail_NM,' > ', A1.category_detail_NM)
+		 	   END as CATEGORY_NAV
+			   FROM PRODUCT_CATEGORY A1
+			   LEFT OUTER JOIN PRODUCT_CATEGORY A2
+			   ON A1.CATEGORY_PARENT_LV = A2.CATEGORY_LV AND A1.CATEGORY_DETAIL_PARENT_LV = A2.CATEGORY_DETAIL_LV AND A1.GROUP_ID = A2.GROUP_ID
+			   LEFT OUTER JOIN PRODUCT_CATEGORY A3
+			   ON A2.CATEGORY_PARENT_LV = A3.CATEGORY_LV AND A2.CATEGORY_DETAIL_PARENT_LV = A3.CATEGORY_DETAIL_LV
+			   ORDER BY CATEGORY_NAV ASC) C on P.prod_category = C.category_key
+  		where prod_id = #{prod_id}
+	</select>
+
+	<update id="update">
+		update PRODUCT set 
+		prod_enddate = #{prod_enddate}
+		,prod_name = #{prod_name}
+		,prod_price = #{prod_price}
+		,prod_count = #{prod_count}
+		,prod_discount = #{prod_discount}
+		,prod_comment = #{prod_comment}
+		,prod_content = #{prod_content}
+		where prod_id = #{prod_id}
+	</update>
+	
+	<delete id="delete">
+		delete from PRODUCT where prod_id = #{prod_id} 
+	</delete>
+	
+	<select id="getTotal" resultType="int">
+		select count(*) as total
+		from PRODUCT
+		where prod_writer = #{user_id}
+		<if test="criteria.searchName != '' and criteria.searchName != null">
+			and prod_name like concat('%', #{searchName}, '%')
+		</if>
+		<if test="criteria.searchContent != '' and criteria.searchContent != null">
+			and prod_content like concat('%', #{searchContent}, '%')
+		</if>
+		<if test="criteria.startDate != '' and criteria.startDate != null">
+			<![CDATA[
+				and str_to_date( prod_enddate, '%Y-%m-%d' ) >= str_to_date(#{startDate}, '%Y-%m-%d')
+			]]>
+		</if>
+		<if test="criteria.endDate != '' and criteria.endDate != null">
+			<![CDATA[
+				and str_to_date( prod_enddate, '%Y-%m-%d' ) <= str_to_date(#{endDate}, '%Y-%m-%d')
+			]]>
+		</if>
+		
+	</select>
+	
+	<!-- 첫번째 데이터를 조회 -->
+	
+	<select id="getCategory" resultType="CategoryVO">
+		select * from PRODUCT_CATEGORY
+		where category_lv = 1
+	</select>
+	
+	<select id="getCategoryChild" resultType="CategoryVO">
+		select * from PRODUCT_CATEGORY
+		where group_id = #{group_id}
+		and category_parent_lv = #{category_lv}
+		and category_detail_parent_lv = #{category_detail_lv}
+		
+	</select>
+	
+	
+	<!-- 파일 업로드 -->
+	<!-- 
+		1.insert전에 product테이블의 키값이 FK로 사용되기 때문에 반드시 필요합니다.
+		이럴땐, selectKey를 사용하면 됩니다.
+		2. update or delete에도 전부 사용할 수 있습니다.
+		3. 조회된 결과가 1행이어야 합니다.
+		
+		resultType = 조회한 결과를 반환 받을 타입
+		keyProperty = 조회한 값을 저장할 속성명
+		order는 BEFORE, AFTER가 사용가능한데, SQL문이 전,후 적용순서
+	 -->
+
+	<insert id="registFile">
+	
+		<selectKey resultType="int" keyProperty="prod_id" order="BEFORE">
+			select max(prod_id) from PRODUCT where prod_writer = #{prod_writer}
+		</selectKey>
+		
+		<!-- 그니까, 아래 insert문 보면, product에 있는 prod_id를 구해야 하는데,
+			지금 insert문은 product_upload임,
+			근데 product 속 prod_id를 미리 구해서, 아래 sql문에다가 집어넣겠다 이것임
+		 -->
+	
+		insert into PRODUCT_UPLOAD(
+			filename,
+			filepath,
+			uuid,
+			prod_id,
+			prod_writer
+		)
+		values(
+			#{filename},
+			#{filepath},
+			#{uuid},
+			#{prod_id},
+			#{prod_writer}
+		)
+	</insert>
+	
+	<!-- 상품에 이미지들 조회 -->
+	<select id="getImgs" resultType="ProductUploadVO">
+		select * from PRODUCT_UPLOAD where prod_id = #{prod_id}
+	</select>
+	
+	
+</mapper>
+
+
+

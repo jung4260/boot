@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- interface 위치 -->
+<mapper namespace="com.simple.basic.test01.TestMapper">
+
+	<select id="getTime" resultType="string">
+		select now()
+	</select>
+
+	<!-- N:1 방식 -->
+	<select id="joinOwn" resultType="com.simple.basic.command.MemoVO">
+		select * from memo m
+		left join users u
+		on m.writer = u.id
+	</select>
+
+	<!-- 1:N방식 -->
+	<select id="joinTwo" resultMap="xxx">
+		select * from users u
+		left join memo m
+		on u.id = m.writer
+	</select>
+	
+	<!-- 
+		1:N ORM작업을 직접 처리합니다 
+		id = 식별이름
+		type = 조인결과 처리할 VO
+		property = 맴버변수명
+		column = 데이터베이스의 컬럼명
+	-->
+	<resultMap type="com.simple.basic.command.UsersVO" id="xxx">
+		<result property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+		<collection property="memo" ofType="com.simple.basic.command.MemoVO">
+			
+			<result property="mno" column="mno" />
+			<result property="writer" column="writer" />
+			<result property="memo" column="memo" />
+		
+		</collection>
+	</resultMap>
+
+</mapper>
+
+
+
+
+
+
+
+

@@ -25,10 +25,10 @@
 	
 	
 	<form action="quizForm" method="post">
-		<input type="text" name="id11"  placeholder="아이디는 영문자,숫자 8자 이상입니다" >
+		<input type="text" name="iddf"  placeholder="아이디는 영문자,숫자 8자 이상입니다" th:value="${vo == null ? '' : vo.id}"  >
 		[[${id}]]
 		<br>
-		<input type="password" name="paaw" placeholder="비밀번호 영문자,숫자,특수문자 조합 8글자 이상" >
+		<input type="password" name="pw" placeholder="비밀번호 영문자,숫자,특수문자 조합 8글자 이상" th:value="${vo == null ? '' : vo.pw}" >
 		[[${pw}]]
 		<br>
 		<input type="submit" value="로그인">

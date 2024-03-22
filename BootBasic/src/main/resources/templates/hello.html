@@ -10,5 +10,46 @@
 	[[${serverTime}]] <br>
 	[[${name}]]
 	
+	<script>
+/* 		
+ 	(async function() {
+			
+			let a = await fetch("/aaa").then( (response) => response.text() )
+			console.log(a);
+			
+			let b = await fetch("/getJSON", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json" //보내는 타입명시
+						},
+						body: JSON.stringify (  {"id":"홍길동", "age":30 } )
+					}).
+					then( response => response.text() )
+			
+					console.log(b);			
+		}) (); 
+*/
+		
+		
+		(async function() {
+			
+			let a = await fetch("/api/v1/getData?name=gildong&num=20").then ( (response) => response.json() );
+			console.log(a);
+			
+			let b = await fetch("/api/v1/getInfo", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify ({"name":"JAVA", "num":40})
+			}).
+			then (	response => response.text()	)
+			console.log(b);
+			
+		}) ();
+		
+		
+	</script>
+	
 </body>
 </html>

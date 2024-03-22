@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coding404.myweb.topic.service.TopicMapper">
+
+	<insert id="regist">
+		insert into TOPIC 
+		(topic_id, topic_head, topic_content, topic_date) 
+		values 
+		(#{topic_id}, #{topic_head}, #{topic_content}, #{topic_date})
+	</insert>
+	
+	<select id="getlist" resultType="TopicVO">
+		select * from TOPIC
+	</select>
+	
+	<select id="getListMine" resultType="TopicVO">
+		select * from topic where TOPIC_ID = 'admin'
+	</select>
+	
+	<delete id="delete">
+		delete from topic where topic_id = #{topic_id} 
+	</delete>
+
+
+</mapper>
+

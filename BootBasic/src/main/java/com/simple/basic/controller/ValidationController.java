@@ -65,15 +65,16 @@ public class ValidationController {
 	
 	@PostMapping("/quizForm")
 	public String quizForm(@Valid MemberVO vo, Errors errors, Model model) {
+		
 		if(errors.hasErrors()) {
 			List <FieldError> list = errors.getFieldErrors();
 			for(FieldError err : list) {
-				String field = err.getField();
-				String msg = err.getDefaultMessage();
-				model.addAttribute(field , msg);
-				System.out.println(field);
+			
+				model.addAttribute(err.getField() , err.getDefaultMessage());				
+				
 			}
 			
+			model.addAttribute("vo", vo);
 			return "valid/quiz01";
 		}
 		

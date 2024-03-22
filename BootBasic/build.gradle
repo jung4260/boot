@@ -1,10 +1,12 @@
+
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.18'
 	id 'io.spring.dependency-management' version '1.1.4'
 }
 
-group = 'com.simple.basic'
+group = 'com.simple'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -30,16 +32,23 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
-	//jsp를 뷰로 사용하려면
-	//implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.83'
-	//implementation 'javax.servlet:jstl:1.2'
+	// jsp를 뷰로 사용하려면
+//    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.83'
+//    implementation 'javax.servlet:jstl:1.2'
+
+	// thymeleaf를 뷰로 사용하려면
+	  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	
-	//타임리프를 뷰로 사용하려면
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	//테스트 모듈 트러블슈팅
+	// 테스트모듈 트러블슈팅
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	//유효성검사 모듈
+	
+	// 유효성 검사
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	
+	// 마이바티스(jdbc, mybatis, jdbc-mybatis)
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0'
+	
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 }
 
 tasks.named('test') {
